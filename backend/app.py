@@ -10,9 +10,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 UPLOAD_FOLDER = '/tmp'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
 def get_safe_font(font_name):
-    """Valida o nome da fonte e retorna um nome seguro em caso de falha."""
     if not isinstance(font_name, str):
         return "helv"
     font = font_name.lower()
@@ -24,7 +22,6 @@ def get_safe_font(font_name):
         return "helv-italic"
     else:
         return "helv"
-
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -62,7 +59,6 @@ def upload_file():
     doc.close()
     return jsonify({"spans": spans_data, "filename": file.filename})
 
-
 @app.route('/download', methods=['POST'])
 def download_file():
     data = request.json
@@ -81,13 +77,11 @@ def download_file():
         texto_editado = span.get("text", "")
 
         if texto_editado.strip() == texto_original.strip():
-            continue  # Ignora se não houve edição
+            continue
 
-        # Apaga o texto antigo
         rect = fitz.Rect(span["bbox"])
         page.draw_rect(rect, color=(1, 1, 1), fill=(1, 1, 1), overlay=True)
 
-        # Aplica texto novo
         fontname = get_safe_font(span.get("font", ""))
         try:
             page.insert_text(
@@ -119,11 +113,24 @@ def download_file():
     response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
     return response
 
-
 @app.route('/uploads/<path:filename>')
 def serve_uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
+@app.route('/preview/<filename>')
+def preview_image(filename):
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    if not os.path.isfile(filepath):
+        return "Arquivo não encontrado", 404
+
+    doc = fitz.open(filepath)
+    page = doc[0]
+    pix = page.get_pixmap(dpi=150)
+    img_bytes = pix.tobytes("png")
+    doc.close()
+    return send_file(io.BytesIO(img_bytes), mimetype='image/png')
+
+# Roda local e no Render (usando porta do ambiente)
 if __name__ == '__main__':
-    print("Servidor Flask iniciado em http://127.0.0.1:5000")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
