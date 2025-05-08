@@ -18,7 +18,7 @@ function App() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/upload", formData);
+      const response = await axios.post("https://frodo-pdf.vercel.app/upload", formData);
       setSpans(response.data.spans);
       setFilename(response.data.filename);
     } catch (err) {
@@ -32,7 +32,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/download",
+        "https://frodo-pdf.vercel.app/download",
         { spans, filename },
         { responseType: "blob" }
       );
@@ -97,7 +97,7 @@ function App() {
     <PDFViewer
       spans={spans}
       setSpans={setSpans}
-      pdfUrl={`http://127.0.0.1:5000/uploads/${filename}`}
+      pdfUrl={`https://frodo-pdf.vercel.app/uploads/${filename}`}
     />
   </div>
 )}
