@@ -17,14 +17,20 @@ function PDFViewer({ spans, setSpans, pdfUrl }) {
 
   return (
     <div
-  className="pdf-container"
-  style={{
-    transform: 'scale(2.5)',
-    transformOrigin: 'top left',
-    minWidth: '1200px', // isso garante espaço horizontal
-  }}
->
-      
+      className="pdf-container"
+      style={{
+        transform: 'scale(2.5)',
+        transformOrigin: 'top left',
+        minWidth: '1200px',
+        position: 'relative'
+      }}
+    >
+      <img
+        src={pdfUrl}
+        alt="PDF Preview"
+        style={{ width: '100%', display: 'block', zIndex: 0 }}
+      />
+
       {spans.map((span, index) => {
         const [x0, y0, x1, y1] = span.bbox;
         const width = x1 - x0;
@@ -40,14 +46,17 @@ function PDFViewer({ spans, setSpans, pdfUrl }) {
           fontWeight: span.bold ? "bold" : "normal",
           fontStyle: span.italic ? "italic" : "normal",
           fontFamily: "Helvetica",
-          backgroundColor: editingIndex === index ? "rgba(255,255,255,0.9)" : "transparent",
-          border: editingIndex === index ? "1px solid #999" : "none",
+          backgroundColor: "transparent",
+          border: editingIndex === index ? "1px solid #00b3ff" : "1px solid transparent",
+          borderRadius: '4px',
           padding: 0,
           margin: 0,
           lineHeight: 1,
           overflow: "hidden",
           zIndex: 10,
-          cursor: "pointer",
+          color: "inherit",
+          outline: "none",
+          background: "transparent",
         };
 
         return editingIndex === index ? (
