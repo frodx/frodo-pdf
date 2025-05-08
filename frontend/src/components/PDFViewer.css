@@ -1,0 +1,32 @@
+.pdf-container {
+  position: relative;
+  width: 794px; /* Largura real A4 em 72 DPI */
+  height: 1123px; /* Altura real A4 em 72 DPI */
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 794px;
+  height: 1123px;
+}
+
+.pdf-container input,
+.pdf-container div {
+  position: absolute;
+  font-family: 'Helvetica Neue', sans-serif;
+  white-space: nowrap;
+  background: transparent;
+  text-align: left;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
