@@ -18,7 +18,7 @@ function App() {
     formData.append("file", selectedFile);
 
     try {
-      const response = await axios.post("https://frodo-pdf.vercel.app/upload", formData);
+      const response = await axios.post("https://frodo-backend.onrender.com/upload", formData);
       setSpans(response.data.spans);
       setFilename(response.data.filename);
     } catch (err) {
@@ -32,7 +32,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://frodo-pdf.vercel.app/download",
+        "https://frodo-backend.onrender.com/download",
         { spans, filename },
         { responseType: "blob" }
       );
@@ -83,24 +83,24 @@ function App() {
         </div>
 
         {spans.length > 0 && (
-  <div
-    className="mt-6 mx-auto border border-gray-300 rounded-md bg-gray-50 relative"
-    style={{
-      width: '100%',
-      maxWidth: '100%',
-      height: '90vh',
-      overflow: 'auto',
-      padding: '1rem',
-      boxShadow: '0 0 10px rgba(0,0,0,0.1)'
-    }}
-  >
-    <PDFViewer
-      spans={spans}
-      setSpans={setSpans}
-      pdfUrl={`https://frodo-pdf.vercel.app/uploads/${filename}`}
-    />
-  </div>
-)}
+          <div
+            className="mt-6 mx-auto border border-gray-300 rounded-md bg-gray-50 relative"
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: '90vh',
+              overflow: 'auto',
+              padding: '1rem',
+              boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+            }}
+          >
+            <PDFViewer
+              spans={spans}
+              setSpans={setSpans}
+              pdfUrl={`https://frodo-backend.onrender.com/uploads/${filename}`}
+            />
+          </div>
+        )}
 
       </div>
     </div>
